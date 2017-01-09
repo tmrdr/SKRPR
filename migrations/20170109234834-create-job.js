@@ -9,16 +9,16 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       title: {
-        type: Sequelize.STING
+        type: Sequelize.STRING
       },
       company: {
-        type: Sequelize.STING
+        type: Sequelize.STRING
       },
       summary: {
         type: Sequelize.STRING
       },
       link: {
-        type: Sequelize.STING
+        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: false,
