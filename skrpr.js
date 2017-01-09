@@ -19,14 +19,7 @@ request(URL, function(err, response, body) {
     var company = job.find(".company");
     var summary = job.find(".summary");
     var link = job.find("a.turnstileLink");
-  //   var timestamp = play.find(".AirDate span");
-  //   var releasename = play.find(".ReleaseMetadata .ReleaseName");
 
-    // console.log(artist.text());
-    // console.log(track.text());
-    // console.log(releasename.text());
-    // console.log(timestamp.text());
-    // console.log(jobs);
     console.log("Title:", title.text().trim());
     console.log("Company:", company.text().trim());
     console.log("Summary:", summary.text().trim());
