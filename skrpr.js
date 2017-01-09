@@ -1,7 +1,9 @@
 var request = require('request');
 var cheerio = require('cheerio');
 
-var URL = 'https://www.indeed.com/jobs?q=%22junior+web+developer%22&l=Seattle,+WA&explvl=entry_level';
+var x = "junior+web+developer";
+
+var URL = 'https://www.indeed.com/jobs?q=' + x + '&l=Seattle,+WA&explvl=entry_level';
 
 request(URL, function(err, response, body) {
   var $ = cheerio.load(body);
