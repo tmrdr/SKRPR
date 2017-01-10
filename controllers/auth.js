@@ -7,7 +7,7 @@ router.get('/signup', function(req, res) {
   res.render('auth/signup');
 });
 
-router.post('/signup', function(req, res) {
+router.post('/signup', function(req, res, next) {
 console.log("this is the req.body: ", req);
   db.user.findOrCreate({
     where: {email: req.body.email},
@@ -19,7 +19,7 @@ console.log("this is the req.body: ", req);
       passport.authenticate('local', {
         successRedirect: '/',
         successFlash: 'Account created and logged in'
-      })(req, res);
+      })(req, res, next);
     } else {
       req.flash('error', 'Email already exists');
       res.redirect('/auth/signup');

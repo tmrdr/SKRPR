@@ -35,6 +35,17 @@ module.exports = function(sequelize, DataTypes) {
         // associations can be defined here
           models.user.belongsToMany(models.job, {through: "userjob"});
       }
+    },
+    instanceMethods: {
+      validPassword: function(password) {
+        return bcrypt.compareSync(password, this.password);
+      },
+      toJSON: function() {
+        var jsonUser = this.get();
+
+        delete jsonUser.password;
+        return jsonUser;
+      }
     }
   });
   return user;

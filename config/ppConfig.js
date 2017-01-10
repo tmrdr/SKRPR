@@ -1,6 +1,10 @@
+var express = require('express');
 var passport = require('passport');
+var flash = require('connect-flash');
 var LocalStrategy = require('passport-local').Strategy;
 var db = require('../models');
+var session = require('express-session');
+var bodyParser = require('body-parser');
 
 passport.serializeUser(function(user, callback) {
   callback(null, user.id);
