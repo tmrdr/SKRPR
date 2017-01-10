@@ -1,0 +1,11 @@
+<h1>results</h1>
+
+<div>
+<% results.forEach(function(result){ %>
+  <h3> <%= result.title %> </h3>
+  <h5> <%= result.company %> <h5>
+  <p> <%= result.summary %> </p>
+  <a href="https://www.indeed.com<%= result.link %>">Link</a>
+<% }); %>
+
+</div>
