@@ -21,6 +21,7 @@ passport.use(new LocalStrategy({
       email: email
     }
   }).then(function(user) {
+    console.log("this is user: ", user);
     if(!user || !user.validPassword(password)) {
       callback(null, false);
     } else {
