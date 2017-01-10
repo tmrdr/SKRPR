@@ -1,11 +1,16 @@
 <h1>results</h1>
-
-<div>
+<br>
+<hr>
+<div class="indeed">
 <% results.forEach(function(result){ %>
-  <h3> <%= result.title %> </h3>
+  <img src="/images/indeed.jpg" height="100px" width="100px">
+  <h3><a href="https://www.indeed.com<%= result.link %>"><%= result.title %></a></h3>
   <h5> <%= result.company %> <h5>
   <p> <%= result.summary %> </p>
-  <a href="https://www.indeed.com<%= result.link %>">Link</a>
+  <form action="/articles/new" method="post">
+    <input type="submit" class="btn btn-success" value="Save job">
+  </form>
+  <hr>
 <% }); %>
 
 </div>

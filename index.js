@@ -9,12 +9,14 @@ var passport = require('./config/ppConfig');
 var flash = require('connect-flash');
 var isLoggedIn = require('./middleware/isLoggedIn');
 var app = express();
+var path = require('path');
 
 app.set('view engine', 'ejs');
 
 app.use(require('morgan')('dev'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(ejsLayouts);
+app.use(express.static(path.join(__dirname, 'static')));
 
 app.use(session({
   secret: process.env.SESSION_SECRET || 'supersecretpassword',
@@ -41,8 +43,11 @@ app.get('/profile', isLoggedIn, function(req, res) {
   res.render('profile');
 });
 
+
 app.post('/results', function(req, res){
   console.log(req.body.search);
+
+  ///indeed scraper
   var URL = 'https://www.indeed.com/jobs?q=' + req.body.search.replace(/ /g,"+") + '&l=Seattle,+WA&explvl=entry_level';
 
   request(URL, function(err, response, body) {
@@ -50,21 +55,14 @@ app.post('/results', function(req, res){
     var jobs = $("#resultsCol .result");
     var results = [];
 
-  	//iterate through the list of found plays
     jobs.each(function(index, job) {
-      // the each function gives us the raw HTML element.
-  	  // convert the element back to a cheerio
       job = $(job);
-    //
+
       var title = job.find(".turnstileLink");
       var company = job.find(".company");
       var summary = job.find(".summary");
       var link = job.find("a.turnstileLink");
 
-      console.log("Title:", title.text().trim());
-      console.log("Company:", company.text().trim());
-      console.log("Summary:", summary.text().trim());
-      console.log("Link:", link.attr('href').trim());
       results.push({title:title.text().trim(), company:company.text().trim(), summary:summary.text().trim(), link:link.attr('href').trim()});
     });
     res.render('results', {results:results});
