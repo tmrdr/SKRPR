@@ -5,7 +5,7 @@
 
     <% jobs.forEach(function(result){ %>
       <div class="well">
-          <a class="title" href="https://www.indeed.com<%= result.link %>"><%= result.title %></a>
+          <a class="title" href="<%= result.link %>"><%= result.title %></a>
           <h5 class="company"> <%= result.company %> <h5>
           <p class="summary"> <%= result.summary %> </p>
       </div>

@@ -43,7 +43,7 @@ app.get('/', function(req, res) {
 
 
 //POST favorited job to profile
-app.post("/profile", function(req, res){
+app.post("/profile", isLoggedIn, function(req, res){
   console.log("got form data", req.body);
   db.job.create(req.body).then(function(job){
     res.redirect('/profile');
