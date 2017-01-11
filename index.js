@@ -9,6 +9,7 @@ var passport = require('./config/ppConfig');
 var flash = require('connect-flash');
 var isLoggedIn = require('./middleware/isLoggedIn');
 var app = express();
+var db = require("./models");
 var path = require('path');
 
 app.set('view engine', 'ejs');
@@ -41,6 +42,14 @@ app.get('/', function(req, res) {
 
 app.get('/profile', isLoggedIn, function(req, res) {
   res.render('profile');
+});
+
+//POST favorited job to profile
+app.post("/favorites", function(req, res){
+  console.log("got form data", req.body);
+  db.job.create(req.body).then(function(job){
+    res.send("Job saved");
+  });
 });
 
 
