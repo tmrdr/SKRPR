@@ -40,17 +40,30 @@ app.get('/', function(req, res) {
   res.render('index');
 });
 
-app.get('/profile', isLoggedIn, function(req, res) {
-  res.render('profile');
-});
+
 
 //POST favorited job to profile
-app.post("/favorites", function(req, res){
+app.post("/profile", function(req, res){
   console.log("got form data", req.body);
   db.job.create(req.body).then(function(job){
-    res.send("Job saved");
+    res.redirect('/profile');
   });
 });
+
+//Display all saved posts for user
+app.get('/profile', isLoggedIn, function(req, res) {
+  db.user.findOne({where: {id: req.user.id}}).then(function(user) {
+    user.getJobs().then(function(jobs) {
+      res.render('profile', { jobs: jobs });
+    });
+  });
+  // db.job.findAll()
+  // .then(function(jobs) {
+  //   console.log("JOBS", jobs);
+  //   res.render('profile', { jobs: jobs });
+  // });
+});
+
 
 
 app.post('/results', function(req, res){

@@ -8,7 +8,7 @@
   <h5 class="company"> <%= result.company %> <h5>
   <p class="summary"> <%= result.summary %> </p>
 
-  <form id="saveJob" action="/favorites" method="post">
+  <form id="saveJob" action="/profile" method="post">
     <input type="hidden" name="link" value="https://www.indeed.com<%= result.link %>"></input>
     <input type="hidden" name="title" value="<%= result.title %>"></input>
     <input type="hidden" name="summary" value="<%= result.company %>"></input>
