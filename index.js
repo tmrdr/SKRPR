@@ -45,23 +45,40 @@ app.get('/', function(req, res) {
 //POST favorited job to profile
 app.post("/profile", isLoggedIn, function(req, res){
   console.log("got form data", req.body);
-  db.job.create(req.body).then(function(job){
-    res.redirect('/profile');
+  db.job.findOrCreate({
+    where: {title: req.body.title},
+
+    defaults: {
+      company: req.body.company,
+      summary: req.body.summary,
+      link: req.body.link
+    }
+  }).spread(function(job, created){
+    console.log("JOB ID:", job.id)
+    db.user.findOrCreate({
+      where: {
+        email: req.user.email
+      }
+    }).spread(function(user, created){
+      job.addUser(user).then(function(user) {
+        job.getUsers().then(function(users) {
+          console.log("users:", users);
+          req.flash('success', 'it worked');
+          res.redirect('/profile');
+        });
+      });
+
+    });
   });
 });
 
-//Display all saved posts for user
+//Display all saved jobs for user
 app.get('/profile', isLoggedIn, function(req, res) {
   db.user.findOne({where: {id: req.user.id}}).then(function(user) {
     user.getJobs().then(function(jobs) {
       res.render('profile', { jobs: jobs });
     });
   });
-  // db.job.findAll()
-  // .then(function(jobs) {
-  //   console.log("JOBS", jobs);
-  //   res.render('profile', { jobs: jobs });
-  // });
 });
 
 
