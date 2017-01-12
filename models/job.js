@@ -4,7 +4,15 @@ module.exports = function(sequelize, DataTypes) {
     title: DataTypes.STRING,
     company: DataTypes.STRING,
     summary: DataTypes.STRING,
-    link: DataTypes.STRING
+    link: DataTypes.STRING,
+    createdAt: {
+      allowNull: false,
+      type: Sequelize.DATE
+    },
+    updatedAt: {
+      allowNull: false,
+      type: Sequelize.DATE
+}
   }, {
     classMethods: {
       associate: function(models) {

@@ -21,7 +21,15 @@ module.exports = function(sequelize, DataTypes) {
           msg: 'Password must be between 1 and 99'
         }
       }
-    }
+    },
+    createdAt: {
+      allowNull: false,
+      type: Sequelize.DATE
+    },
+    updatedAt: {
+      allowNull: false,
+      type: Sequelize.DATE
+}
   }, {
     hooks: {
       beforeCreate: function(createdUser, options, callback) {
