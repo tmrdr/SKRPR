@@ -9,7 +9,7 @@ module.exports = function(sequelize, DataTypes) {
     },
     updatedAt: {
       allowNull: false,
-      type: Datatypes.DATE
+      type: DataTypes.DATE
 }
   }, {
     classMethods: {
