@@ -7,11 +7,11 @@ module.exports = function(sequelize, DataTypes) {
     link: DataTypes.STRING,
     createdAt: {
       allowNull: false,
-      type: DataType.DATE
+      type: DataTypes.DATE
     },
     updatedAt: {
       allowNull: false,
-      type: DataType.DATE
+      type: DataTypes.DATE
 }
   }, {
     classMethods: {

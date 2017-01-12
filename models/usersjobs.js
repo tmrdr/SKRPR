@@ -5,11 +5,11 @@ module.exports = function(sequelize, DataTypes) {
     jobId: DataTypes.INTEGER,
     createdAt: {
       allowNull: false,
-      type: DataType.DATE
+      type: DataTypes.DATE
     },
     updatedAt: {
       allowNull: false,
-      type: Datatype.DATE
+      type: Datatypes.DATE
 }
   }, {
     classMethods: {

@@ -24,11 +24,11 @@ module.exports = function(sequelize, DataTypes) {
     },
     createdAt: {
       allowNull: false,
-      type: DataType.DATE
+      type: DataTypes.DATE
     },
     updatedAt: {
       allowNull: false,
-      type: DataType.DATE
+      type: DataTypes.DATE
 }
   }, {
     hooks: {
