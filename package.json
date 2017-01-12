@@ -1,7 +1,7 @@
 {
   "name": "skrpr",
   "version": "1.0.0",
-  "description": "",
+  "description": "Badass App",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
