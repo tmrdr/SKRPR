@@ -22,4 +22,20 @@ $('#saveJob').on('submit', function(ev){
   });
 });
 
-  // $.post();
+//delete
+$(".deleteJob").on('submit', function(ev){
+  ev.preventDefault();
+  console.log("Delete just got clicked...");
+  var element = $(this);
+  var url = element.attr('action');
+
+  $.ajax({
+    method: 'DELETE',
+    url: url
+  }).done(function(data) {
+    // get data returned from the DELETE route
+    console.log(data);
+    // go back to the homepage after deleting anything.
+    window.location = '/profile';
+  });
+});

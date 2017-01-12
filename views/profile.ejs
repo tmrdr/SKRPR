@@ -8,6 +8,10 @@
           <a class="title" href="<%= result.link %>"><%= result.title %></a>
           <h5 class="company"> <%= result.company %> <h5>
           <p class="summary"> <%= result.summary %> </p>
+
+          <form class="deleteJob" action="/profile/<%= result.id %>" method="delete">
+            <input type="submit" class="btn btn-danger" value="Delete job">
+          </form>
       </div>
     <% }); %>
 

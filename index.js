@@ -81,6 +81,15 @@ app.get('/profile', isLoggedIn, function(req, res) {
   });
 });
 
+//deletes article and redirects to articles
+app.delete('/profile/:id',function(req,res){
+  console.log(req.params.id);
+  db.user.findById(req.user.id).then(function(user){
+    user.removeJob(req.params.id).then(function() {
+      res.send({message:'success destroying'});
+    });
+  });
+});
 
 
 app.post('/results', function(req, res){
