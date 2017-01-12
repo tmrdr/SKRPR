@@ -98,6 +98,9 @@ app.post('/results', function(req, res){
   ///indeed scraper
   var URL = 'https://www.indeed.com/jobs?q=' + req.body.search.replace(/ /g,"+") + '&l=Seattle,+WA&explvl=entry_level';
 
+  var URL2 = 'https://www.monster.com/jobs/search/?q=' + req.body.search.replace(/ /g,"-") +'&where=seattle;';
+
+
   request(URL, function(err, response, body) {
     var $ = cheerio.load(body);
     var jobs = $("#resultsCol .result");
@@ -116,6 +119,7 @@ app.post('/results', function(req, res){
     res.render('results', {results:results});
   });
 });
+
 
 app.use('/auth', require('./controllers/auth'));
 

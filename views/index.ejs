@@ -1,10 +1,17 @@
 <h5>Search job keywords:</h5>
+<br>
 <form action="/results" method="POST">
   <input type="search" name="search" id="search">
   <input type="submit">
 </form>
 
-<a href="/auth/signup">Signup</a>
-<a href="/auth/login">Login</a>
-<a href="/auth/logout">Logout</a>
-<a href="/profile">My Jobs</a>
+
+<br>
+
+<% if (currentUser === undefined) { %>
+  <a href="/auth/signup">Signup</a> |
+  <a id="login" href="/auth/login">Login</a>
+<% } else { %>
+  <a href="/profile">My Jobs</a> |
+  <a id="logout" href="/auth/logout">Logout</a>
+<% } %>
