@@ -44,32 +44,74 @@ app.get('/', function(req, res) {
 
 //POST favorited job to profile
 app.post("/profile", isLoggedIn, function(req, res){
-  console.log("got form data", req.body);
-  db.job.findOrCreate({
-    where: {title: req.body.title},
+  //console.log("got form data", req.body);
 
-    defaults: {
-      company: req.body.company,
-      summary: req.body.summary,
-      link: req.body.link
-    }
-  }).spread(function(job, created){
-    console.log("JOB ID:", job.id)
-    db.user.findOrCreate({
-      where: {
-        email: req.user.email
+  db.user.findById(req.user.id).then(function(user) {
+    console.log('Found user', user.id);
+    db.job.findOrCreate({
+      where: {title: req.body.title},
+      defaults: {
+        company: req.body.company,
+        summary: req.body.summary,
+        link: req.body.link
       }
-    }).spread(function(user, created){
-      job.addUser(user).then(function(user) {
-        job.getUsers().then(function(users) {
-          console.log("users:", users);
-          req.flash('success', 'it worked');
-          res.redirect('/profile');
-        });
+    }).spread(function(job, created) {
+      user.addJob(job).then(function(user) {
+        res.send(job);
+        // req.flash('success', 'it worked');
+        res.redirect('/profile');
+      }).catch(function (err) {
+        console.log("ADD JOB REJECTION:", err);
       });
-
+    }).catch(function (err) {
+      console.log("CREATE JOB REJECTION:", err);
     });
+
+    // db.job.findOrCreate({
+    //   where: {title: req.body.title},
+      // defaults: {
+      //   company: req.body.company,
+      //   summary: req.body.summary,
+      //   link: req.body.link
+      // }
+    // }).spread(function(job, created) {
+    //   console.log('JOB THINGS', job.id, created);
+    //   user.createJob(job).then(function(job) {
+    //     req.flash('success', 'it worked');
+    //     res.redirect('/profile');
+    //   });
+    // }).catch(function(error) {
+    //   console.log(error)
+    // });
+  }).catch(function(error) {
+    console.log(error);
   });
+
+  // db.job.findOrCreate({
+  //   where: {title: req.body.title},
+  //
+  //   defaults: {
+  //     company: req.body.company,
+  //     summary: req.body.summary,
+  //     link: req.body.link
+  //   }
+  // }).spread(function(job, created){
+  //   console.log("JOB ID:", job.id)
+  //   db.user.findOrCreate({
+  //     where: {
+  //       email: req.user.email
+  //     }
+  //   }).spread(function(user, created){
+  //     job.addUser(user).then(function(user) {
+  //       job.getUsers().then(function(users) {
+  //         console.log("users:", users);
+  //         req.flash('success', 'it worked');
+  //         res.redirect('/profile');
+  //       });
+  //     });
+  //
+  //   });
+  // });
 });
 
 //Display all saved jobs for user

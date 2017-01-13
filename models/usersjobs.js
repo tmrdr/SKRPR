@@ -4,13 +4,11 @@ module.exports = function(sequelize, DataTypes) {
     userId: DataTypes.INTEGER,
     jobId: DataTypes.INTEGER,
     createdAt: {
-      allowNull: false,
       type: DataTypes.DATE
     },
     updatedAt: {
-      allowNull: false,
       type: DataTypes.DATE
-}
+    }
   }, {
     classMethods: {
       associate: function(models) {
