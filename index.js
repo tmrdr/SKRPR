@@ -57,8 +57,8 @@ app.post("/profile", isLoggedIn, function(req, res){
       }
     }).spread(function(job, created) {
       user.addJob(job).then(function(user) {
-        res.send(job);
-        // req.flash('success', 'it worked');
+        // res.send(job);
+        req.flash('success', 'it worked');
         res.redirect('/profile');
       }).catch(function (err) {
         console.log("ADD JOB REJECTION:", err);
