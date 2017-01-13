@@ -15,14 +15,16 @@ var path = require('path');
 app.set('view engine', 'ejs');
 
 app.use(require('morgan')('dev'));
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({
+    extended: false
+}));
 app.use(ejsLayouts);
 app.use(express.static(path.join(__dirname, 'static')));
 
 app.use(session({
-  secret: process.env.SESSION_SECRET || 'supersecretpassword',
-  resave: false,
-  saveUninitialized: true
+    secret: process.env.SESSION_SECRET || 'supersecretpassword',
+    resave: false,
+    saveUninitialized: true
 }));
 
 app.use(passport.initialize());
@@ -31,90 +33,107 @@ app.use(passport.session());
 app.use(flash());
 
 app.use(function(req, res, next) {
-  res.locals.alerts = req.flash();
-  res.locals.currentUser = req.user;
-  next();
+    res.locals.alerts = req.flash();
+    res.locals.currentUser = req.user;
+    next();
 });
 
 app.get('/', function(req, res) {
-  res.render('index');
+    res.render('index');
 });
 
 
 
 //POST favorited job to profile
-app.post("/profile", isLoggedIn, function(req, res){
+app.post("/profile", isLoggedIn, function(req, res) {
 
-  db.user.findById(req.user.id).then(function(user) {
-    console.log('Found user', user.id);
-    db.job.findOrCreate({
-      where: {title: req.body.title},
-      defaults: {
-        company: req.body.company,
-        summary: req.body.summary,
-        link: req.body.link
-      }
-    }).spread(function(job, created) {
-      user.addJob(job).then(function(user) {
-        req.flash('success', 'Job Added');
-        res.send('Job Added');
-      }).catch(function (err) {
-        console.log("ADD JOB REJECTION:", err);
-      });
-    }).catch(function (err) {
-      console.log("CREATE JOB REJECTION:", err);
+    db.user.findById(req.user.id).then(function(user) {
+        console.log('Found user', user.id);
+        db.job.findOrCreate({
+            where: {
+                title: req.body.title
+            },
+            defaults: {
+                company: req.body.company,
+                summary: req.body.summary,
+                link: req.body.link
+            }
+        }).spread(function(job, created) {
+            user.addJob(job).then(function(user) {
+                req.flash('success', 'Job Added');
+                res.send('Job Added');
+            }).catch(function(err) {
+                console.log("ADD JOB REJECTION:", err);
+            });
+        }).catch(function(err) {
+            console.log("CREATE JOB REJECTION:", err);
+        });
+    }).catch(function(error) {
+        console.log(error);
     });
-  }).catch(function(error) {
-    console.log(error);
-  });
 });
 
 //Display all saved jobs for user
 app.get('/profile', isLoggedIn, function(req, res) {
-  db.user.findOne({where: {id: req.user.id}}).then(function(user) {
-    user.getJobs().then(function(jobs) {
-      res.render('profile', { jobs: jobs });
+    db.user.findOne({
+        where: {
+            id: req.user.id
+        }
+    }).then(function(user) {
+        user.getJobs().then(function(jobs) {
+            res.render('profile', {
+                jobs: jobs
+            });
+        });
     });
-  });
 });
 
 //deletes article and redirects to articles
-app.delete('/profile/:id',function(req,res){
-  console.log(req.params.id);
-  db.user.findById(req.user.id).then(function(user){
-    user.removeJob(req.params.id).then(function() {
-      res.send({message:'success destroying'});
+app.delete('/profile/:id', function(req, res) {
+    console.log(req.params.id);
+    db.user.findById(req.user.id).then(function(user) {
+        user.removeJob(req.params.id).then(function() {
+            res.send({
+                message: 'success destroying'
+            });
+        });
     });
-  });
 });
 
 
-app.post('/results', function(req, res){
-  console.log(req.body.search);
+app.post('/results', function(req, res) {
+    console.log(req.body.search);
 
-  ///indeed scraper
-  var URL = 'https://www.indeed.com/jobs?q=' + req.body.search.replace(/ /g,"+") + '&l=Seattle,+WA&explvl=entry_level';
+    ///indeed scraper
+    var URL = 'https://www.indeed.com/jobs?q=' + req.body.search.replace(/ /g, "+") + '&l=Seattle,+WA&explvl=entry_level';
 
-  var URL2 = 'https://www.monster.com/jobs/search/?q=' + req.body.search.replace(/ /g,"-") +'&where=seattle;';
+    var URL2 = 'https://www.monster.com/jobs/search/?q=' + req.body.search.replace(/ /g, "-") + '&where=seattle;';
 
 
-  request(URL, function(err, response, body) {
-    var $ = cheerio.load(body);
-    var jobs = $("#resultsCol .result");
-    var results = [];
+    request(URL, function(err, response, body) {
+        var $ = cheerio.load(body);
+        var jobs = $("#resultsCol .result");
+        var results = [];
 
-    jobs.each(function(index, job) {
-      job = $(job);
+        jobs.each(function(index, job) {
+            job = $(job);
 
-      var title = job.find(".turnstileLink");
-      var company = job.find(".company");
-      var summary = job.find(".summary");
-      var link = job.find("a.turnstileLink");
+            var title = job.find(".turnstileLink");
+            var company = job.find(".company");
+            var summary = job.find(".summary");
+            var link = job.find("a.turnstileLink");
 
-      results.push({title:title.text().trim(), company:company.text().trim(), summary:summary.text().trim(), link:link.attr('href').trim()});
+            results.push({
+                title: title.text().trim(),
+                company: company.text().trim(),
+                summary: summary.text().trim(),
+                link: link.attr('href').trim()
+            });
+        });
+        res.render('results', {
+            results: results
+        });
     });
-    res.render('results', {results:results});
-  });
 });
 
 
