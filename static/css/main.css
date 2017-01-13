@@ -9,3 +9,29 @@ a:hover {
 #title {
   font-size: 50pt;
 }
+
+#myjobs {
+  position:fixed;
+  right:0px;
+  top:0px;
+  height: 150px;
+  width: 150px;
+  background-color: white;
+  padding-right: 0;
+}
+
+#jobbtn {
+  margin-top: 100px;
+}
+
+#alerts-container {
+  position: fixed;
+  top: 0px;
+  width: 100%;
+}
+
+.alert {
+  position: fixed;
+  top: 0px;
+  width: 100%;
+}

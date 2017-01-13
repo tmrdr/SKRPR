@@ -1,5 +1,10 @@
 <h2>Results:</h2>
 <br>
+<div id="myjobs">
+<form id="jobbtn" action="/profile">
+    <input type="submit" class="btn btn-warning" value="My Jobs"/>
+</form>
+</div>
 <hr>
 <div class="indeed">
 <% results.forEach(function(result){ %>
@@ -8,7 +13,7 @@
   <h5 class="company"> <%= result.company %> <h5>
   <p class="summary"> <%= result.summary %> </p>
 
-  <form id="saveJob" action="/profile" method="post">
+  <form class="saveJob" action="/profile" method="post">
     <input type="hidden" name="link" value="https://www.indeed.com<%= result.link %>"></input>
     <input type="hidden" name="title" value="<%= result.title %>"></input>
     <input type="hidden" name="summary" value="<%= result.company %>"></input>
