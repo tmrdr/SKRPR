@@ -35,3 +35,7 @@ a:hover {
   top: 0px;
   width: 100%;
 }
+
+#main {
+  margin-top: 50px;
+}
